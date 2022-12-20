@@ -1,0 +1,54 @@
+pipeline {
+        agent any
+        stages {
+            stage('Robot Test') {
+                    steps {
+                          script{
+                          System.setProperty("hudson.model.DirectoryBrowserSupport.CSP", "")
+                          if(isUnix()){
+                               git branch: '${branch}', url: '${giturl}'
+                               sh (script:"pip3 install -r ./requirements.txt",returnStatus:false)
+                               sh (script:"robot --pythonpath . --listener 'allure_robotframework;./Reports/Allure-Reports' -d Reports --variable BROWSER_NAME:chrome Tests/.",returnStatus:false)
+                               }
+                           else {
+                               git branch: '${branch}', url: '${giturl}'
+                               bat (script:"pip3 install -r ./requirements.txt",returnStatus:false)
+                               bat (script:" robot --pythonpath . --listener 'allure_robotframework;./Reports/Allure-Reports' -d Reports  --variable BROWSER_NAME:chrome Tests/.",returnStatus:false)
+                                }
+                          }
+                    }
+                }
+                }
+        post {
+                always{
+                archiveArtifacts artifacts: 'Reports/*.html, Reports/*.xml, Reports/*.png, Reports/*.jpg,requirements.txt', followSymlinks: false
+                robot archiveDirName: 'robot-plugin', outputPath: 'Reports/', overwriteXAxisLabel: ''
+                allure includeProperties: false, jdk: '', results: [[path: 'Reports/']]
+                }
+                // If the Build Fails this is executed
+                failure {
+                mail bcc: '', body: 'Build Was Failure', cc: '${mail id}', from: '', replyTo: '', subject: 'Build Notification', to: '${mail id}'
+                office365ConnectorSend webhookUrl: "${webhook url}",
+                factDefinitions: [[name: "message", template: "Execution Failed"],
+                                  [name: "Build Number", template: '$BUILD_NUMBER'],
+                                  [name: "Browser name", template: '${browser}'],
+                                  [name: "Branch name", template: '${branch}'],
+                                  [name: "Job Name", template: '$JOB_NAME']],
+                color: "#FF0000",
+                status: "Failure"
+                }
+                // If the Build is Passed this is executed
+                success {
+                mail bcc: '', body: 'Build Was SuccessFul', cc: '${mail id}', from: '', replyTo: '', subject: 'Build Notification', to: '${mail id}'
+                office365ConnectorSend webhookUrl: "${webhook url}",
+                factDefinitions: [[name: "message", template: "Execution Success"],
+                                  [name: "Build Number", template: '$BUILD_NUMBER'],
+                                  [name: "Browser name", template: '${browser}'],
+                                  [name: "Branch name", template: '${branch}'],
+                                  [name: "Job Name", template: '$JOB_NAME']],
+                color: "#00FF00",
+                status: "Success"
+                }
+        }
+
+}

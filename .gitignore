@@ -1,0 +1,13 @@
+# Created by .ignore support plugin (hsz.mobi)
+### Python template
+# Byte-compiled / optimized / DLL files
+__pycache__/
+.DS_Store
+# idea folder, uncomment if you don't need it
+.idea
+venv
+Reports/*
+!*.gitkeep
+.pabotsuitenames
+Screenshot
+Recordings
