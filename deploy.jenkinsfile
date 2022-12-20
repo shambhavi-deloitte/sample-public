@@ -12,7 +12,7 @@ pipeline {
                                }
                            else {
                                git branch: '${branch}', url: '${giturl}'
-                               bat (script:"pip3 install -r ./requirements.txt",returnStatus:false)
+                               bat (script:"pip install -r ./requirements.txt",returnStatus:false)
                                bat (script:" robot --pythonpath . --listener 'allure_robotframework;./Reports/Allure-Reports' -d Reports  --variable BROWSER_NAME:chrome Tests/.",returnStatus:false)
                                 }
                           }
