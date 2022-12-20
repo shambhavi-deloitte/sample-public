@@ -9,7 +9,7 @@ pipeline {
                                git branch: '${branch}', url: '${giturl}'
 
                                     sh '''python -m venv venv
-                                          source ./venv/bin/activate
+                                          source {WORKSPACE}/venv/bin/activate
                                           pip install -r ./requirements.txt
                                           robot -d Reports --variable BROWSER_NAME:chrome Tests/.
                                     '''
