@@ -7,7 +7,7 @@ pipeline {
                           System.setProperty("hudson.model.DirectoryBrowserSupport.CSP", "")
                           if(isUnix()){
                                git branch: '${branch}', url: '${giturl}'
-                               sh (script:"pip3 install -r ./requirements.txt",returnStatus:false)
+                               sh (script:"pip install -r ./requirements.txt",returnStatus:false)
                                sh (script:"robot --pythonpath . --listener 'allure_robotframework;./Reports/Allure-Reports' -d Reports --variable BROWSER_NAME:chrome Tests/.",returnStatus:false)
                                }
                            else {
