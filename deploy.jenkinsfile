@@ -13,7 +13,7 @@ pipeline {
                                           pip install -r ./requirements.txt
                                           robot -d Reports --variable BROWSER_NAME:chrome Tests/.
                                     '''
-                               }
+
                           }
                            else {
                                git branch: '${branch}', url: '${giturl}'
