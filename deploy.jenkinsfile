@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh '''script:"pip3 install -r ./requirements.txt";
+                sh '''script:"pip install -r ./requirements.txt";
                 robot --pythonpath . --listener 'allure_robotframework;./Reports/Allure-Reports' -d Reports --variable BROWSER_NAME:chrome Tests/.'''
 
             }
