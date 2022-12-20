@@ -8,7 +8,7 @@ pipeline {
                           if(isUnix()){
                                git branch: '${branch}', url: '${giturl}'
                                withEnv(["HOME=${env.WORKSPACE}"]) {
-                                    sh (script:"python -m venv venv",returnStatus:false)
+                                    sh (script:"python -m venv venv && source venv/bin/activate",returnStatus:false)
                                     sh (script:"source venv/bin/activate",returnStatus:false)
                                     sh (script:"pip install -r ./requirements.txt",returnStatus:false)
                                     sh (script:"robot -d Reports --variable BROWSER_NAME:chrome Tests/.",returnStatus:false)
