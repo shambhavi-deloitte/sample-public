@@ -8,10 +8,10 @@ pipeline {
                           if(isUnix()){
                                git branch: '${branch}', url: '${giturl}'
                                withEnv(["HOME=${env.WORKSPACE}"]) {
-                                sh (script:"pip install -r ./requirements.txt",returnStatus:false)
-                                sh (script:"robot --pythonpath . --listener 'allure_robotframework;./Reports/Allure-Reports' -d Reports --variable BROWSER_NAME:chrome Tests/.",returnStatus:false)
-
+                                    sh (script:"pip install -r ./requirements.txt",returnStatus:false)
+                                    sh (script:"robot --pythonpath . --listener 'allure_robotframework;./Reports/Allure-Reports' -d Reports --variable BROWSER_NAME:chrome Tests/.",returnStatus:false)
                                }
+                          }
                            else {
                                git branch: '${branch}', url: '${giturl}'
                                bat (script:"pip install -r ./requirements.txt",returnStatus:false)
