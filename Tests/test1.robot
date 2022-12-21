@@ -12,8 +12,8 @@ Validate UnSuccesful Login
 
 *** Keywords ***
 open the browser with the Mortgage payment url
-     ${driver_path}=    browser driver path            headlesschrome
-    open browser        https://rahulshettyacademy.com/loginpagePractise/   headlesschrome    executable_path=${driver_path}
+     ${driver_path}=    browser driver path           firefox
+    open browser        https://rahulshettyacademy.com/loginpagePractise/   firefox    executable_path=${driver_path}
 Fill the login Form
     Input Text          id:username     priyashambhavi
     Input Password      id:password     2345677
